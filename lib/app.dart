@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:t2507e_flutter/screens/cart.dart';
 import 'package:t2507e_flutter/screens/home.dart';
+import 'package:t2507e_flutter/screens/profile.dart';
+import 'package:t2507e_flutter/screens/search.dart';
 
 class App extends StatefulWidget{
   const App({super.key});
@@ -7,7 +10,19 @@ class App extends StatefulWidget{
   State<StatefulWidget> createState() => _AppState();
 }
 class _AppState extends State<App>{
-
+  final List<Widget> screen = [
+    const Home(),
+    const Search(),
+    const Cart(),
+    const Profile()
+  ];
+  int _currentScreen = 0;
+  // thay dodoir giá trị cho biến _currentScreen
+  changeCurrentScreen(int index){
+    setState(() {
+      _currentScreen = index;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,7 +31,7 @@ class _AppState extends State<App>{
           style: TextStyle(color: Colors.white) ),
         backgroundColor: Colors.orange,
       ),
-      body: const Home(),
+      body: screen[_currentScreen],
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home_outlined),label: "Home"),
@@ -26,6 +41,8 @@ class _AppState extends State<App>{
         ],
         selectedItemColor: Colors.orange,
         unselectedItemColor: Colors.black87,
+        currentIndex: _currentScreen,
+        onTap: (index)=>changeCurrentScreen(index),
 
       ),
     );
