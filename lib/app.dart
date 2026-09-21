@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:t2507e_flutter/provider/cart_provider.dart';
 import 'package:t2507e_flutter/screens/cart.dart';
 import 'package:t2507e_flutter/screens/home.dart';
 import 'package:t2507e_flutter/screens/profile.dart';
@@ -25,6 +27,7 @@ class _AppState extends State<App>{
   }
   @override
   Widget build(BuildContext context) {
+    final cartCount = context.watch<CartProvider>().count;
     return Scaffold(
       appBar: AppBar(
         title: const Text("T2507E Flutter Demo",
@@ -33,10 +36,17 @@ class _AppState extends State<App>{
       ),
       body: screen[_currentScreen],
       bottomNavigationBar: BottomNavigationBar(
-        items: const [
+        items:  [
           BottomNavigationBarItem(icon: Icon(Icons.home_outlined),label: "Home"),
           BottomNavigationBarItem(icon: Icon(Icons.search_outlined),label: "Search"),
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_bag_outlined),label: "Cart"),
+          BottomNavigationBarItem(
+              icon: cartCount > 0
+                  ? Badge(
+                      label: Text('$cartCount'),
+                      child: const Icon(Icons.shopping_bag_outlined),
+                    )
+                  :const Icon(Icons.shopping_bag_outlined),
+              label: "Cart"),
           BottomNavigationBarItem(icon: Icon(Icons.person_2_outlined),label: "Profile")
         ],
         selectedItemColor: Colors.orange,

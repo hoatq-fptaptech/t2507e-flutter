@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:t2507e_flutter/models/category_model.dart';
+import 'package:t2507e_flutter/provider/cart_provider.dart';
 
 class CategoryList extends StatefulWidget{
   const CategoryList({super.key});
@@ -48,7 +50,7 @@ class _CategoryListState extends State<CategoryList>{
           ),
         ),
         Container(
-          height: 200,
+          height: 250,
           child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: cats.length,
@@ -59,7 +61,15 @@ class _CategoryListState extends State<CategoryList>{
                     children: [
                       Image.network("https://openweathermap.org/img/wn/10d@2x.png",
                           width: 150, height: 120),
-                      Text(cats[index].name??"")
+                      Text(cats[index].name??""),
+                      ElevatedButton(
+                          onPressed: (){
+                            // final cart = Provider.of<CartProvider>(context,listen: false);
+                            // cart.addCategory(cats[index]);
+                            context.read<CartProvider>().addCategory(cats[index]);
+                          },
+                          child: const Text("Add to cart")
+                      )
                     ],
                   ),
                 );
